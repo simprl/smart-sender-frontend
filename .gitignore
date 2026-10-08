@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.npm-cache/
+.vite/
+*.local
+test-results/
+.idea/
+tmp/

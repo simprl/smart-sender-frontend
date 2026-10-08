@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+.idea/
+.npm-cache/
+.vite/
+tmp/
+test-results/
+*.tsbuildinfo
+public/mockServiceWorker.js
