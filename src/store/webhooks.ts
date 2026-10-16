@@ -1,4 +1,4 @@
-import type { ListParams, WebhookList } from '@/api';
+import type { ListParams, Webhook, WebhookList } from '@/api';
 import { createState, createEvent } from './state';
 import { EMPTY_RESOURCE, type Resource } from './resource';
 
@@ -7,10 +7,13 @@ export function createWebhooksStore() {
     const refreshState = createState(0);
     const searchState = createState('');
     const paramsChangeEvent = createEvent<Partial<ListParams>>();
+    const saveActive = createEvent<Pick<Webhook, "id" | "active">>();
+
     return {
         state,
         refreshState,
         searchState,
+        saveActive,
         changeParams: paramsChangeEvent.emit,
         useOnParamsChange: paramsChangeEvent.useOnEvent,
         refresh() {

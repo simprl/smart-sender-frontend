@@ -3,6 +3,7 @@ import type { Webhook } from '@/api';
 import type { NavigationState } from '@/routing';
 import { text } from '@/i18n';
 import { Icon, IconName } from '@ui/components';
+import { appStore } from "@/store";
 const headerCellClass =
     'border-y border-border bg-subtle px-6 py-[13px] text-xs font-semibold text-[#5b677b] max-desktop:px-[18px]';
 const cellClass =
@@ -10,7 +11,11 @@ const cellClass =
 
 export function WebhooksTable({ webhooks }: { webhooks: Webhook[] }) {
     const { pathname, search } = useLocation();
+    const { state: webhookState, saveState, saveActive } = appStore.webhook;
     const navigationState: NavigationState = { returnTo: pathname + search };
+    const onSaveActiveHandler = () => {
+
+    }
     return (
         <div className="w-full overflow-x-auto">
             <table className="w-full border-collapse text-left whitespace-nowrap">
@@ -54,9 +59,16 @@ export function WebhooksTable({ webhooks }: { webhooks: Webhook[] }) {
                                     className={`inline-flex items-center gap-1.5 rounded-[5px] px-[9px] py-1 text-xs font-medium ${webhook.active ? 'bg-positive-soft text-positive' : 'bg-[#f1f3f6] text-muted'}`}
                                 >
                                     <span className="size-[5px] rounded-full bg-current" />
-                                    {webhook.active
-                                        ? text.active
-                                        : text.inactive}
+                                    <button onClick={() =>{
+                                        saveActive.emit({
+                                            id: webhook.id,
+                                            active: !webhook.active
+                                        });
+                                    }}>
+                                        {webhook.active
+                                            ? text.active
+                                            : text.inactive}
+                                    </button>
                                 </span>
                             </td>
                             <td className={cellClass}>

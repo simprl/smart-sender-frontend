@@ -30,6 +30,10 @@ export interface WebhookInput {
     name: string;
     url: string;
 }
+export interface WebhookActive {
+    id: number;
+    active: boolean;
+}
 export interface Credentials {
     email: string;
     password: string;

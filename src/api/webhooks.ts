@@ -38,3 +38,15 @@ export function updateWebhook(
         signal,
     });
 }
+export function updateWebhookActive(
+    id: number,
+    input: WebhookInput,
+    signal?: AbortSignal,
+) {
+    return apiClient.request<Webhook>(`/v1/webhooks/${id}/active`, {
+        method: HttpMethod.Put,
+        body: input,
+        protected: true,
+        signal,
+    });
+}

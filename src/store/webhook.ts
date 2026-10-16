@@ -23,7 +23,6 @@ export function createWebhookStore() {
     });
     const refreshState = createState(0);
     const saveEvent = createEvent();
-
     return {
         state,
         saveState,

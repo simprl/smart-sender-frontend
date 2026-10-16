@@ -1,7 +1,7 @@
 import { memo, useEffect, useEffectEvent, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getWebhooks, toRequestError, type User } from '@/api';
-import { appStore, listKey, EMPTY_RESOURCE } from '@/store';
+import { getWebhooks, toRequestError, updateWebhook, type User } from '@/api';
+import { appStore, listKey, EMPTY_RESOURCE, SaveStatus } from '@/store';
 
 export const WebhooksActor = memo(function WebhooksActor({
     page,
@@ -20,6 +20,7 @@ export const WebhooksActor = memo(function WebhooksActor({
         changeParams,
         useOnParamsChange,
         clear,
+        saveActive,
     } = appStore.webhooks;
     const { notificationState } = appStore;
     const { user, logoutPending } = sessionState.useValue();
@@ -135,5 +136,56 @@ export const WebhooksActor = memo(function WebhooksActor({
         },
         [user, logoutPending, clear],
     );
+
+    saveActive.useOnEvent(({id, active}) => {
+        console.log({ id, active });
+            const result = await updateWebhookActive(
+                requestedId,
+                input: { id, active },
+                controller.signal,
+            );
+        // const { key: requestedKey, data, pending } = currentResource.current;
+        // if (
+        //     !user ||
+        //     logoutPending ||
+        //     id === null ||
+        //     !data ||
+        //     pending ||
+        //     requestedKey !== String(id) ||
+        //     data.id !== id ||
+        //     saveRequest.current
+        // ) {
+        //     return;
+        // }
+        // const requestedId = id;
+        // const input = { name: data.name, url: data.url };
+        // const owner = user;
+        // const controller = new AbortController();
+        //
+        // try {
+        //     const result = await updateWebhook(
+        //         requestedId,
+        //         input,
+        //         controller.signal,
+        //     );
+        //     if (!controller.signal.aborted && canPublish(owner, requestedId)) {
+        //         saveRequest.current = null;
+        //         handleSaveSuccess(result);
+        //     }
+        // } catch (cause) {
+        //     if (!controller.signal.aborted && canPublish(owner, requestedId)) {
+        //         saveState.set({
+        //             id: requestedId,
+        //             status: SaveStatus.Error,
+        //             error: toRequestError(cause),
+        //         });
+        //     }
+        // } finally {
+        //     if (saveRequest.current === controller) {
+        //         saveRequest.current = null;
+        //     }
+        // }
+    })
+
     return null;
 });
